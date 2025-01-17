@@ -1,0 +1,138 @@
+#!/bin/bash
+
+# Check OS type
+opensuse=$(cat /etc/os-release | grep -o "openSUSE" | head -1)
+ubuntu=$(cat /etc/os-release | grep -o "Ubuntu" | head -1)
+rocky=$(cat /etc/os-release | grep -o "Rocky" | head -1)
+
+# Create Hosting Directory and move videos
+echo "Creating Hosting Folder in /home/$USER/Videos/ for Your videos"
+mkdir -p /home/$USER/Videos/Hosting
+mv /home/$USER/Videos/*.{mp4,avi,mkv} /home/$USER/Videos/Hosting/
+
+echo "Media files moved to Hosting directory."
+
+# Install and configure Nginx
+nginx=$(whereis nginx | cut -d" " -f2)
+if [ "$nginx" == "/usr/sbin/nginx" ]; then
+    echo "nginx is already installed, configuring..."
+
+    # Create nginx configuration for Flask app
+    echo """
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            proxy_pass http://127.0.0.1:5005;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        }
+    }
+    """ | sudo tee /etc/nginx/conf.d/flaskapp.conf > /dev/null
+
+    # Restart Nginx to apply changes
+    sudo systemctl restart nginx
+    echo "nginx configured and restarted."
+
+else
+    if [ "$opensuse" == "openSUSE" ]; then
+        echo "Installing nginx on openSUSE..."
+        sudo zypper -n install nginx
+        sudo systemctl enable nginx --now
+
+        # Configure nginx for Flask app
+        echo """
+        server {
+            listen 80;
+            server_name localhost;
+
+            location / {
+                proxy_pass http://127.0.0.1:5005;
+                proxy_set_header Host \$host;
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            }
+        }
+        """ | sudo tee /etc/nginx/conf.d/flaskapp.conf > /dev/null
+
+        # Restart Nginx to apply changes
+        sudo systemctl restart nginx
+        echo "Nginx installed and configured."
+
+    elif [ "$ubuntu" == "Ubuntu" ]; then
+        echo "Installing nginx on Ubuntu..."
+        sudo apt-get update
+        sudo apt-get install -y nginx
+        sudo systemctl enable nginx --now
+
+        # Configure nginx for Flask app
+        echo """
+        server {
+            listen 80;
+            server_name localhost;
+
+            location / {
+                proxy_pass http://127.0.0.1:5005;
+                proxy_set_header Host \$host;
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            }
+        }
+        """ | sudo tee /etc/nginx/sites-available/flaskapp > /dev/null
+
+        # Enable the site and restart Nginx
+        sudo ln -s /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled/
+        sudo systemctl restart nginx
+        echo "Nginx installed and configured on Ubuntu."
+
+    elif [ "$rocky" == "Rocky" ]; then
+        echo "Installing nginx on Rocky Linux..."
+        sudo dnf install -y nginx
+        sudo systemctl enable nginx --now
+
+        # Configure nginx for Flask app
+        echo """
+        server {
+            listen 80;
+            server_name localhost;
+
+            location / {
+                proxy_pass http://127.0.0.1:5005;
+                proxy_set_header Host \$host;
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            }
+        }
+        """ | sudo tee /etc/nginx/conf.d/flaskapp.conf > /dev/null
+
+        # Restart Nginx to apply changes
+        sudo systemctl restart nginx
+        echo "Nginx installed and configured on Rocky Linux."
+    fi
+fi
+
+# Check for Python 3.11 and install if necessary
+python_version=$(python3.11 --version 2>/dev/null)
+
+if [[ "$python_version" == *"3.11"* ]]; then
+    echo "Python 3.11 is already installed."
+else
+    echo "Installing Python 3.11..."
+
+    if [ "$ubuntu" == "Ubuntu" ]; then
+        sudo apt-get update
+        sudo apt-get install -y python3.11 python3.11-venv python3.11-dev
+    elif [ "$rocky" == "Rocky" ]; then
+        sudo dnf install -y python3.11 python3.11-venv python3.11-devel
+    elif [ "$opensuse" == "openSUSE" ]; then
+        sudo zypper -n install python3.11 python3.11-virtualenv python3.11-devel
+    fi
+
+    # Install requirements
+    python3.11 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    echo "Python 3.11 installed and virtual environment created."
+fi
