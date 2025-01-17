@@ -8,7 +8,11 @@ echo "Firewall configured [ OK ]"
 
 echo "Start Your Video Hosting ..."
 
+source venv/bin/activate
+
 cd app 
+
+echo "Application is now running on your local network. You can access it by visiting the server's IP address from any device connected to the same network"
 
 gunicorn -w 3 -b 127.0.0.1:5005 main:app
 
