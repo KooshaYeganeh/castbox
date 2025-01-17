@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Server</title>
+    <!-- Bootstrap 5 CSS for styling -->
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .video-card {
+            margin-bottom: 20px;
+        }
+        .video-thumbnail {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .video-card-body {
+            text-align: center;
+        }
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .video-link {
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .video-link:hover {
+            text-decoration: underline;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My Video Server</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Available Videos</h1>
+        <div class="video-grid">
+            {% for file in files %}
+            <div class="card video-card">
+                <img src="{{ file.thumbnail }}" alt="Thumbnail" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
+                <div class="card-body video-card-body">
+                    <h5 class="card-title video-title">{{ file.name }}</h5>
+                    <a href="#" class="video-link" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">Watch Video</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Video Player</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <video id="videoPlayer" class="w-100" controls>
+                        <source id="videoSource" src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS and dependencies -->
+    <script src="../static/popper.min.js"></script>
+    <script src="../static/bootstrap.min.js"></script>
+    <script>
+        // Handle modal opening and video loading
+        const videoModal = document.getElementById('videoModal');
+        videoModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const videoUrl = button.getAttribute('data-video-url');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            videoSource.src = videoUrl;
+            videoPlayer.load();
+        });
+    </script>
+</body>
+</html>
