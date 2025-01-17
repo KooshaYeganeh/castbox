@@ -54,11 +54,11 @@
 
     <!-- Main Content -->
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Available Videos</h1>
+        <h1 class="text-center mb-4">FM - Free Media Hosting Platform</h1>
         <div class="video-grid">
             {% for file in files %}
             <div class="card video-card">
-                <img src="{{ file.thumbnail }}" alt="Thumbnail" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
+                <img src="{{ file.thumbnail }}" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
                 <div class="card-body video-card-body">
                     <h5 class="card-title video-title">{{ file.name }}</h5>
                     <a href="#" class="video-link" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">Watch Video</a>
