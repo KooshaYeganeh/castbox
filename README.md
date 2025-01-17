@@ -1,11 +1,7 @@
 # Video Hosting Server
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1280px-Tux.svg.png" alt="Linux Logo" width="100" height="150"/>
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/83/The_GNU_logo.png" alt="GNU Logo" width="100" height="150"/>
-<img src="https://static.fsf.org/common/img/logo-new.png" alt="Free Software Logo" width="200" height="60"/>
-<img src="https://www.openmaint.org/images/opensource-logo.png/@@images/image.png" alt="openSOURCE" width="200"/>
-<img src="https://sfconservancy.org/static/img/conservancy-header.8c88caa4010b.svg" alt="Software Freedom Conservancy" width="200" height="100"/>
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Free_Software_Foundation_Europe%2C_logo.svg" alt="Software Freedom Conservancy" width="200" height="100"/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1280px-Tux.svg.png" alt="Linux Logo" width="100" height="150"/><img src="https://upload.wikimedia.org/wikipedia/commons/8/83/The_GNU_logo.png" alt="GNU Logo" width="100" height="150"/>
+<img src="https://static.fsf.org/common/img/logo-new.png" alt="Free Software Logo" width="200" height="60"/><img src="https://www.openmaint.org/images/opensource-logo.png/@@images/image.png" alt="openSOURCE" width="200"/><img src="https://sfconservancy.org/static/img/conservancy-header.8c88caa4010b.svg" alt="Software Freedom Conservancy" width="200" height="100"/><img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Free_Software_Foundation_Europe%2C_logo.svg" alt="Software Freedom Conservancy" width="200" height="100"/>
 V
 
 ## Overview
@@ -70,14 +66,6 @@ VIDEO_FOLDER = "/home/{username}/Videos/Hosting"
 ```
 
 Replace `{username}` with your actual Linux username.
-
-## Screenshots
-
-### Main Page
-![Main Page](assets/screenshot-1.png)
-
-### Video Modal
-![Video Modal](assets/screenshot-2.png)
 
 ## Contributing
 
