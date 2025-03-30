@@ -1,0 +1,1 @@
+SHAREFOLDER=f"/home/koosha/Videos/JADi"
