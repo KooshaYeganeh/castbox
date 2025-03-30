@@ -1,12 +1,12 @@
 from flask import Flask, send_from_directory, render_template
 import os
 import getpass
-
+import config
 
 username = getpass.getuser()
 
 # Set the path to your video folder
-VIDEO_FOLDER = f"/home/{username}/Videos/Hosting"  # Replace {username} with your actual username
+VIDEO_FOLDER = config.SHAREFOLDER  # Replace {username} with your actual username
 
 app = Flask(__name__)
 
