@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<!--
+	Hielo by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Server</title>
-    <!-- Bootstrap 5 CSS for styling -->
+    <title>KYGNus Video Hosting</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 CSS for video platform -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/assets/css/main.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Roboto', sans-serif;
+        /* Video Platform Styles */
+        .video-platform {
+            padding: 60px 0;
+            background: #fff;
         }
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
         }
         .video-card {
             margin-bottom: 20px;
@@ -20,6 +31,8 @@
             border-radius: 10px;
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .video-card:hover {
             transform: translateY(-5px);
@@ -32,7 +45,6 @@
         }
         .video-card-body {
             padding: 15px;
-            background-color: #fff;
         }
         .video-title {
             font-size: 1.1rem;
@@ -50,12 +62,6 @@
         .video-link:hover {
             text-decoration: underline;
         }
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
         .modal-content {
             border-radius: 10px;
         }
@@ -72,34 +78,118 @@
         .modal-body video {
             border-radius: 10px;
         }
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="https://kooshayeganeh.github.io/">KYGNus</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <div class="logo"><a href="index.html">KYGNus <span>Video Hosting</span></a></div>
+        <a href="#menu">Menu</a>
+    </header>
+
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#video-section">Videos</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Free Media</h1>
-        <div class="video-grid">
-            {% for file in files %}
-            <div class="card video-card">
-                <img src="{{ file.thumbnail }}" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
-                <div class="card-body video-card-body">
-                    <h5 class="card-title video-title">{{ file.name }}</h5>
-                    <a href="#" class="video-link" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">Watch Video</a>
+    <!-- Banner -->
+    <section class="banner full">
+        <article>
+            <img src="../static/images/IRON-2008-d7a2706.jpg" alt="" width="1440" height="961">
+            <div class="inner">
+                <header>
+                    <p>Free video hosting platform by KYGNus</p>
+                    <h2>Video Sharing</h2>
+                </header>
+            </div>
+        </article>
+        <article>
+            <img src="../static/images/Jason_Momoa_Wallpaper_1714626423.jpg" alt="" width="1440" height="961">
+            <div class="inner">
+                <header>
+                    <p>Stream and share your favorite videos</p>
+                    <h2>Media Platform</h2>
+                </header>
+            </div>
+        </article>
+    </section>
+
+    <!-- Video Platform Section -->
+    <section id="video-section" class="wrapper style2 video-platform">
+        <div class="inner">
+            <header class="section-title">
+                <h2>Free Media</h2>
+                <p>Browse our collection of videos</p>
+            </header>
+            
+            <div class="video-grid">
+                {% for file in files %}
+                <div class="card video-card">
+                    <img src="{{ file.thumbnail }}" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
+                    <div class="card-body video-card-body">
+                        <h5 class="card-title video-title">{{ file.name }}</h5>
+                        <a href="#" class="video-link" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">Watch Video</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="wrapper style3">
+        <div class="inner">
+            <header class="align-center">
+                <p class="special">About our video hosting platform</p>
+                <h2>KYGNus Media Sharing</h2>
+            </header>
+            <div class="grid-style">
+                <div>
+                    <div class="box">
+                        <div class="image fit">
+                            <img src="../static/images/f1_movie_poster.jpeg" alt="" width="600" height="300">
+                        </div>
+                        <div class="content">
+                            <header class="align-center">
+                                <p>High quality video streaming</p>
+                                <h2>Our Platform</h2>
+                            </header>
+                            <p>Enjoy seamless video playback with our optimized streaming technology. Our platform supports various video formats and provides a smooth viewing experience across all devices.</p>
+                            <footer class="align-center">
+                                <a href="#video-section" class="button alt">Browse Videos</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="box">
+                        <div class="image fit">
+                            <img src="../static/images/Interstellar.png" alt="" width="600" height="300">
+                        </div>
+                        <div class="content">
+                            <header class="align-center">
+                                <p>Free and open to everyone</p>
+                                <h2>Our Mission</h2>
+                            </header>
+                            <p>We believe in free access to media and information. Our platform is built to provide a space for sharing knowledge, entertainment, and creative content without restrictions.</p>
+                            <footer class="align-center">
+                                <a href="#video-section" class="button alt">Start Watching</a>
+                            </footer>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
+    </section>
 
     <!-- Video Modal -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
@@ -119,20 +209,44 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+            </ul>
+        </div>
+    </footer>
+    <div class="copyright">
+        Video Hosting Platform by <a href="https://kooshayeganeh.github.io/">KYGNus</a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <script src="../static/assets/js/jquery.scrollex.min.js"></script>
+    <script src="../static/assets/js/skel.min.js"></script>
+    <script src="../static/assets/js/util.js"></script>
+    <script src="../static/assets/js/main.js"></script>
+    
     <!-- Bootstrap 5 JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script>
         // Handle modal opening and video loading
         const videoModal = document.getElementById('videoModal');
-        videoModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const videoUrl = button.getAttribute('data-video-url');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoSource = document.getElementById('videoSource');
-            videoSource.src = videoUrl;
-            videoPlayer.load();
-        });
+        if (videoModal) {
+            videoModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const videoUrl = button.getAttribute('data-video-url');
+                const videoPlayer = document.getElementById('videoPlayer');
+                const videoSource = document.getElementById('videoSource');
+                videoSource.src = videoUrl;
+                videoPlayer.load();
+            });
+        }
     </script>
 </body>
 </html>
