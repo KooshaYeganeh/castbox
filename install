@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# Exit immediately if any command fails
+set -e
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Required packages
+REQUIRED_PYTHON="python3.11"
+REQUIRED_PACKAGES=("python3.11-venv")
+EXPECTED_PACKAGE_COUNT=27
+SERVICE_FILE="FMhost.service"
+SERVICE_PATH="/etc/systemd/system/FMhost.service"
+
+# Check Python version
+echo -e "${YELLOW}Checking Python installation...${NC}"
+if ! command -v $REQUIRED_PYTHON &> /dev/null; then
+    echo -e "${RED}Error: $REQUIRED_PYTHON is not installed.${NC}"
+    echo "Please install it with:"
+    echo "sudo apt update && sudo apt install python3.11 python3.11-venv"
+    exit 1
+fi
+echo -e "${GREEN}$REQUIRED_PYTHON is installed.${NC}"
+
+# Check required system packages
+echo -e "${YELLOW}Checking system packages...${NC}"
+for pkg in "${REQUIRED_PACKAGES[@]}"; do
+    if ! dpkg -s "$pkg" &> /dev/null; then
+        echo -e "${RED}Error: $pkg is not installed.${NC}"
+        echo "Please install it with:"
+        echo "sudo apt install $pkg"
+        exit 1
+    fi
+done
+echo -e "${GREEN}All required packages are installed.${NC}"
+
+# Create and activate virtual environment
+echo -e "${YELLOW}Creating virtual environment...${NC}"
+if [ ! -d "venv" ]; then
+    $REQUIRED_PYTHON -m venv venv
+    echo -e "${GREEN}Virtual environment created.${NC}"
+else
+    echo -e "${YELLOW}Virtual environment already exists.${NC}"
+fi
+
+echo -e "${YELLOW}Activating virtual environment...${NC}"
+source venv/bin/activate
+echo -e "${GREEN}Virtual environment activated.${NC}"
+
+# Install requirements
+echo -e "${YELLOW}Installing Python packages...${NC}"
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Verify package count
+INSTALLED_COUNT=$(pip freeze | wc -l)
+if [ "$INSTALLED_COUNT" -ne "$EXPECTED_PACKAGE_COUNT" ]; then
+    echo -e "${RED}Warning: Expected $EXPECTED_PACKAGE_COUNT packages but found $INSTALLED_COUNT.${NC}"
+    echo "You may want to verify your requirements.txt file."
+else
+    echo -e "${GREEN}All packages installed successfully.${NC}"
+fi
+
+deactivate
+echo -e "${GREEN}Virtual environment deactivated.${NC}"
+
+# Setup systemd service
+echo -e "${YELLOW}Setting up systemd service...${NC}"
+if [ ! -f "$SERVICE_FILE" ]; then
+    echo -e "${RED}Error: $SERVICE_FILE not found in current directory.${NC}"
+    exit 1
+fi
+
+sudo cp "$SERVICE_FILE" "$SERVICE_PATH"
+sudo systemctl daemon-reload
+
+# Enable and start service
+echo -e "${YELLOW}Starting FMhost service...${NC}"
+sudo systemctl enable FMhost.service
+if ! sudo systemctl start FMhost.service; then
+    echo -e "${RED}Error: Failed to start FMhost service.${NC}"
+    echo "Check the status with:"
+    echo "sudo systemctl status FMhost.service"
+    exit 1
+fi
+
+echo -e "${GREEN}Service started successfully.${NC}"
+echo -e "\n${YELLOW}You can check the service status with:${NC}"
+echo "sudo systemctl status FMhost.service"
+echo -e "${YELLOW}Or view logs with:${NC}"
+echo "journalctl -u FMhost.service -f"
+
+exit 0
