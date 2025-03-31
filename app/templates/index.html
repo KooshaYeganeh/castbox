@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <!--
-	Hielo by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+    Hielo by TEMPLATED
+    templated.co @templatedco
+    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
 <head>
@@ -82,6 +82,43 @@
             text-align: center;
             margin-bottom: 40px;
         }
+        /* Folder styles */
+        .folder {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .folder-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .folder-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #ffc107;
+        }
+        .folder-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .folder-contents {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .root-videos {
+            margin-bottom: 30px;
+        }
+        .root-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
@@ -95,9 +132,9 @@
     <!-- Nav -->
     <nav id="menu">
         <ul class="links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#video-section">Videos</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/videos">Videos</a></li>
+            <li><a href="https://kooshayeganeh.github.io/">About</a></li>
         </ul>
     </nav>
 
@@ -123,73 +160,8 @@
         </article>
     </section>
 
-    <!-- Video Platform Section -->
-    <section id="video-section" class="wrapper style2 video-platform">
-        <div class="inner">
-            <header class="section-title">
-                <h2>Free Media</h2>
-                <p>Browse our collection of videos</p>
-            </header>
-            
-            <div class="video-grid">
-                {% for file in files %}
-                <div class="card video-card">
-                    <img src="{{ file.thumbnail }}" class="card-img-top video-thumbnail" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">
-                    <div class="card-body video-card-body">
-                        <h5 class="card-title video-title">{{ file.name }}</h5>
-                        <a href="#" class="video-link" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ file.url }}">Watch Video</a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
     <!-- About Section -->
-    <section id="about" class="wrapper style3">
-        <div class="inner">
-            <header class="align-center">
-                <p class="special">About our video hosting platform</p>
-                <h2>KYGNus Media Sharing</h2>
-            </header>
-            <div class="grid-style">
-                <div>
-                    <div class="box">
-                        <div class="image fit">
-                            <img src="../static/images/f1_movie_poster.jpeg" alt="" width="600" height="300">
-                        </div>
-                        <div class="content">
-                            <header class="align-center">
-                                <p>High quality video streaming</p>
-                                <h2>Our Platform</h2>
-                            </header>
-                            <p>Enjoy seamless video playback with our optimized streaming technology. Our platform supports various video formats and provides a smooth viewing experience across all devices.</p>
-                            <footer class="align-center">
-                                <a href="#video-section" class="button alt">Browse Videos</a>
-                            </footer>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="box">
-                        <div class="image fit">
-                            <img src="../static/images/Interstellar.png" alt="" width="600" height="300">
-                        </div>
-                        <div class="content">
-                            <header class="align-center">
-                                <p>Free and open to everyone</p>
-                                <h2>Our Mission</h2>
-                            </header>
-                            <p>We believe in free access to media and information. Our platform is built to provide a space for sharing knowledge, entertainment, and creative content without restrictions.</p>
-                            <footer class="align-center">
-                                <a href="#video-section" class="button alt">Start Watching</a>
-                            </footer>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Video Modal -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
@@ -213,7 +185,7 @@
     <footer id="footer">
         <div class="container">
             <ul class="icons">
-                <li><a href="https://github.com/KooshaYeganeh/freeutm" class="icon fa-github"><span class="label">Telegram</span></a></li>
+                <li><a href="https://github.com/KooshaYeganeh/freeutm" class="icon fa-github"><span class="label">GitHub</span></a></li>
                 <li><a href="https://www.instagram.com/kygnus.co?igsh=cnJtdzEzbjR6c2Fy" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
                 <li><a href="kooshakooshadv@gmail.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
             </ul>
@@ -244,6 +216,13 @@
                 const videoSource = document.getElementById('videoSource');
                 videoSource.src = videoUrl;
                 videoPlayer.load();
+            });
+            
+            // Reset video when modal is closed
+            videoModal.addEventListener('hidden.bs.modal', function() {
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
             });
         }
     </script>

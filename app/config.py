@@ -1,1 +1,1 @@
-SHAREFOLDER=f"/home/koosha/Videos/JADi"
+SHAREFOLDER=f"/home/koosha/Videos"
